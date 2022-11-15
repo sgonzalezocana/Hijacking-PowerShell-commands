@@ -1,4 +1,4 @@
-# PowerShell commands hijacking: Masquerading persistence
+# Hijacking PowerShell commands: Masquerading persistence
 This is a PoC to hijack PowerShell commands in order to bypass AV/EDR solutions in Red Team exercises. Although this technique can be used to hijack any PowerShell command, in this case I have used it to masquerade persistence on the system by Write-Output cmdlet hijacking.
 
 ![plot](./Images/Funcionamiento.png)
