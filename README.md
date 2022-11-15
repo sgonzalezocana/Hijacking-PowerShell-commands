@@ -67,12 +67,11 @@ For this line:
 
 The first one is that the parameters related to Write-Output cmdlet are not the same of the Start-Process cmdlet. So we will have to modify the variable $PSBoundParameters (that is a hashtable). By adding this line the problem is solved:
 
-`$PSBoundParameters.Remove('InputObject')`
-
-`$PSBoundParameters.Remove('NoEnumerate')`
-
-`$PSBoundParameters.Add('PSPath', 'C:\Users\Public\payload.exe')`
-
+```
+$PSBoundParameters.Remove('InputObject')
+$PSBoundParameters.Remove('NoEnumerate')
+$PSBoundParameters.Add('PSPath', 'C:\Users\Public\payload.exe')
+```
 
 The second problem is that we have replaced the function `Write-Output` completely, so the original `Write-Output` will never be executed. For solving this problem, what I have done is add an if statement to execute the hijacking only in certain conditions. In this case, the hijacking will be executed only if the Write-Output call have the word 'hijack' in the `$InputObject` parameter.
 
