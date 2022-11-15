@@ -92,7 +92,9 @@ The final code is this (consider include the code in a function with the name `W
 
 
 ### Replacing original function
-Now, what we have to do is replace the original `Write-Output` function by our modified proxy function. In PowerShell, when we import a function with the same name of a cmdlet, the imported function will replace the original cmdlet. However, we need to import this modified proxy function in every PowerShell session. For this, we will use PowerShell profiles. Firstly, we check if there is any existing profile in the system in order to modify it, if not, we create one and we write the modified proxy function in it:
+Now, what we have to do is replace the original `Write-Output` function by our modified proxy function. In PowerShell, when we import a function with the same name of a cmdlet, the imported function will replace the original cmdlet. However, we need to import this modified proxy function in every PowerShell session. 
+
+For this, we will use PowerShell profiles. Firstly, we check if there is any existing profile in the system in order to modify it, if not, we create one and we write the modified proxy function in it:
 
 ![plot](./Images/profiles.png)
 
