@@ -10,7 +10,7 @@ This is a PoC to hijack PowerShell commands in order to bypass AV/EDR solutions 
   - [Talking about PowerShell profiles](#powershell-profiles)
 - [PoC implementation](#poc-implementation)
   - [Generating proxy functions](#generating-proxy-functions)
-  - [Modifying proxy function](#modifying-proxy-functions)
+  - [Modifying Write-Output proxy function](#modifying-write-output-proxy-function)
   - [Replacing original function](#replacing-original-function)
   - [Payload execution](#payload-execution)
   - [Persistence](#persistence)
@@ -45,7 +45,7 @@ Then, we are going to generate the proxy function related to `Start-Process`:
 `[System.Management.Automation.ProxyCommand]::Create($Function2) | Out-File -FilePath "C:\Users\Public\Start_Process.ps1"`
 
 
-### Modifying proxy functions
+### Modifying Write-Output proxy function
 As we can see, we obtain a function with the same structure. However, we can see that they have some differences. The first one is that both functions receive different parameters.
 
 ![plot](./Images/parameters.png)
@@ -107,7 +107,7 @@ Once we have a profile created with our modified proxy function inside it, each 
 
 
 ### Persistence
-Finally, the only thing left to do is establish persistence on the system with the method desired. The only thing that you have to do is execute this line, that seems to be a simple Write-Output. However, it is masquerading persistence on the system.
+Finally, the only thing left to do is establish persistence on the system with the method desired. If you execute this command line, it seems to be a simple Write-Output execution. However, the payload is being executed, masquerading persistence on the system.
 
 `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -command "Write-Output 'hijack prueba'"`
 
