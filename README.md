@@ -1,7 +1,7 @@
 # PowerShell commands hijacking: Masquerading persistence
 This is a PoC to hijack PowerShell commands in order to bypass AV/EDR solutions in Red Team exercises. Although this technique can be used to hijack any PowerShell command, in this case I have used it to masquerade persistence on the system by Write-Output cmdlet hijacking.
 
-PONER FOTO
+![plot](./Images/Funcionamiento.png)
 
 
 ## Summary
@@ -37,7 +37,7 @@ Firstly, what we have to do is generate the proxy function related to `Write-Out
 
 Obtaining a script like this:
 
-PONER FOTO
+![plot](./Images/OriginalWO.png)
 
 Then, we are going to generate the proxy function related to `Start-Process`:
 
@@ -52,7 +52,7 @@ PONER FOTO
 
 The other difference is this line: 
 
-PONER FOTO
+![plot](./Images/Diferencias.png)
 
 If we replace this line in Write-Output proxy function, changing this line:
 
@@ -63,7 +63,7 @@ For this line:
 
 `$wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Management\Start-Process', [System.Management.Automation.CommandTypes]::Cmdlet)`
 
-Start-Process will be executed instead of the original `Write-Output`. However, we have two problems in this case. 
+`Start-Process` will be executed instead of the original `Write-Output`. However, we have two problems in this case. 
 
 The first one is that the parameters related to Write-Output cmdlet are not the same of the Start-Process cmdlet. So we will have to modify the variable $PSBoundParameters (that is a hashtable). By adding this line the problem is solved:
 
@@ -89,13 +89,14 @@ if ($PSBoundParameters.InputObject[0] -clike '*hijack*'){
 
 The final code is this (consider include the code in a function with the name `Write-Output`, by default the proxy function doesn´t generate it):
 
-FOTO
+![plot](./Images/Hijackedfnc.png)
 
 
 ### Replacing original function
 Now, what we have to do is replace the original `Write-Output` function by our modified proxy function. In PowerShell, when we import a function with the same name of a cmdlet, the imported function will replace the original cmdlet. However, we need to import this modified proxy function in every PowerShell session. For this, we will use PowerShell profiles. Firstly, we check if there is any existing profile in the system in order to modify it, if not, we create one and we write the modified proxy function in it:
 
-FOTO
+![plot](./Images/profiles.png)
+
 
 Storing a Base64 in a PowerShell script is not a good idea to bypass EDR, but in this case, I have done it for code simplicity
 
@@ -103,7 +104,7 @@ Storing a Base64 in a PowerShell script is not a good idea to bypass EDR, but in
 ### Payload execution
 Once we have a profile created with our modified proxy function inside it, each time that PowerShell starts, our `Write-Output` will replace the original cmdlet, so if we execute a Write-Output with our magic word, the payload will be executed:
 
-FOTO
+![plot](./Images/execution.png)
 
 
 ### Persistence
