@@ -65,7 +65,7 @@ For this line:
 
 `Start-Process` will be executed instead of the original `Write-Output`. However, we have two problems in this case. 
 
-a) The first one is that the parameters related to Write-Output cmdlet are not the same of the Start-Process cmdlet. So we will have to modify the variable $PSBoundParameters (that is a hashtable). By adding this line the problem is solved:
+a) The first one is that the parameters related to Write-Output cmdlet are not the same of the Start-Process cmdlet. So we will have to modify the variable `$PSBoundParameters` (that is a hashtable). By adding this line the problem is solved:
 
 ```
 $PSBoundParameters.Remove('InputObject')
