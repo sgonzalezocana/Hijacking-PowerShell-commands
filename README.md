@@ -48,7 +48,7 @@ Then, we are going to generate the proxy function related to `Start-Process`:
 ### Modifying proxy functions
 As we can see, we obtain a function with the same structure. However, we can see that they have some differences. The first one is that both functions receive different parameters.
 
-PONER FOTO
+![plot](./Images/parameters.png)
 
 The other difference is this line: 
 
